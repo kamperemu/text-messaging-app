@@ -1,2 +1,2 @@
 # text-messaging-app
-simple text messaging app
+hello this is from ubuntu
