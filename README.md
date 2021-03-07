@@ -8,3 +8,7 @@ encrypted messaging system
 voice recording
 files
 emoticons
+
+
+testing from ubuntu
+
