@@ -1,2 +1,10 @@
 # text-messaging-app
-hello this is from ubuntu
+basic flask thingy
+sql connection
+login secure
+encrypted messaging system
+
+
+voice recording
+files
+emoticons
