@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+{{pagetitle}}
+{% endblock %}
+
+{% block content %}
+
+
+<form action="#" method="post"> 
+    <h1 class = 'head'>{{head}}</h1>
+    Username: <input id = 'username' type="text" name="username"/></br></br>
+    Password: <input id = 'password' type="password" name="password"/></br></br>
+    <button formmethod="POST" id='submit'>Submit</button>
+</form>
+
+{% endblock %}
