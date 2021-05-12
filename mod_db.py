@@ -1,4 +1,6 @@
 import mysql.connector as sql
+import tkinter
+from tkinter import messagebox
 
 db = sql.connect(
         host = '127.0.0.1',
@@ -7,18 +9,27 @@ db = sql.connect(
         database = 'textapp'
     )
 
+def pop(action,message):
+    root = tkinter.Tk()
+    root.withdraw()
+    if action == 'error':
+        messagebox.showerror('Error',message)
+    elif action == 'info':
+        messagebox.showinfo('Info',message)
+    root.destroy()
+
 def add(action,username,password):
 
     cursor = db.cursor()
     if action == 'register':
         try:
+            cursor.execute('SELECT id from details')
+            count = cursor.fetchall()
             cursor.execute('''
-            INSERT INTO details(username,password) VALUES(%s,%s)''',(username, password))
+            INSERT INTO details(id,username,password) VALUES(%s,%s,%s)''',(count[0][0]+1,username, password))
 
         except sql.IntegrityError:
-            print("Username '",username,"' already exists.")
-        except:
-            print("Invalid Data.")
+            pop('error',"Username '" + username + "' already exists.")
         else:
             db.commit()  
         
@@ -27,13 +38,13 @@ def add(action,username,password):
     elif action == 'login':
         try:
             cursor.execute("""SELECT * from details where username = %s""",(username,)) #no curly brackets around %s, ensure tuple format.
-            data = cursor.fetchone()
-            if data[2] == password: #TYPE ERROR INCORRECT USEER.
-                print("LOGIN SUCCESSFUL!")
+            data = cursor.fetchall()
+            if data[0][2] == password: #TYPE ERROR INCORRECT USEER.
+                pop('info',"LOGIN SUCCESSFUL!")
             else:
-                print("Incorrect Password")
+                pop('error',"Incorrect Password")
         except: #index error since even if username doesn't exist in db, it gives empty tuple.
-            print("User doesn't exist. Please try again.")  
+            pop('error',"User doesn't exist. Please try again.")  
         
 
     

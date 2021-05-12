@@ -1,9 +1,14 @@
-.block,form{
-    color:cadetblue;
+.homebtns,form{
+    color: #ffffff; 
+    font-family: 'Lato', sans-serif; 
+    font-size: 27px; 
+    font-weight: 300; 
+    line-height: 58px;
     margin: auto;
     text-align: center;
     padding: auto;
     position:relative;
+    width:25%;
 }
 
 body{
@@ -12,7 +17,6 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
 }
 
 
@@ -23,7 +27,7 @@ body{
     padding-top: 100px;
 }
 
-.login{
+.home_indivbtns{
     padding: 30px 90px;
     color:white;
     background-color: cornflowerblue;
@@ -35,7 +39,7 @@ body{
 }
 
 
-.login:hover {
+.home_indivbtns:hover {
     background-color: #0924b9;
     color: white;
   } 

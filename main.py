@@ -10,8 +10,6 @@ def add_data(action,username,password):
 @app.route('/', methods = ['GET','POST'])
 @app.route('/home', methods = ['GET','POST'])
 def home():
-    if request.method == 'POST':
-        return render_template('home.html')
     return render_template('home.html')
 
 

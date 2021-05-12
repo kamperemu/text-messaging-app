@@ -5,12 +5,26 @@
 
 {% block content %}
 
-
+<!--
 <form action="#" method="post"> 
-    <h1 class = 'head'>{{head}}</h1>
+    
     Username: <input id = 'username' type="text" name="username"/></br></br>
     Password: <input id = 'password' type="password" name="password"/></br></br>
     <button formmethod="POST" id='submit'>Submit</button>
+</form>!-->
+
+<form action = '#' method = 'post'>
+    <h1 class = 'head'>{{head}}</h1>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" name = 'username' class="form-control" id="username" placeholder="Enter username">
+      <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>!-->
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name = 'password' class="form-control" id="password" placeholder="Password">
+    </div>
+    <button formmethod="POST" id='submit' type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 {% endblock %}
