@@ -1,15 +1,21 @@
-.homebtns,form{
+form{
     color: #ffffff; 
     font-family: 'Lato', sans-serif; 
     font-size: 27px; 
     font-weight: 300; 
     line-height: 58px;
     margin: auto;
-    text-align: center;
     padding: auto;
     position:relative;
     width:25%;
 }
+
+.btn{
+    font-size: 30px;
+    background-color:wheat;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 
 body{
     height:100%;

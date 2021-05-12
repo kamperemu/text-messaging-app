@@ -5,11 +5,14 @@ Home
 {% endblock %}
 
 {% block content %}
+
 <div class = 'homebtns'>
     <a href = '/login'>
-        <button class = 'home_indivbtns' type = 'submit' formmethod = 'POST' name = 'LOGIN'>LOGIN</button>
+        <button type="submit" formmethod = 'POST' name = 'LOGIN' class="btn btn-outline-primary">Login</button>
     </a>
     <a href = '/register'>
-        <button class = 'home_indivbtns' type = 'submit' formmethod = 'POST' name = 'REGISTER'>REGISTER</button>
+        <button type="submit" formmethod = 'POST' name = 'REGISTER' class="btn btn-outline-primary">Register</button>
+    </a>
 </div>
+
 {% endblock %}

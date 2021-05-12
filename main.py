@@ -3,9 +3,11 @@ import mod_db as mydb
 
 app = Flask(__name__)
 
+
 def add_data(action,username,password):
     if username != '' and password != '':
         mydb.add(action,username,password)
+
 
 @app.route('/', methods = ['GET','POST'])
 @app.route('/home', methods = ['GET','POST'])
@@ -20,6 +22,7 @@ def register():
         password = request.form['password']
         add_data('register',username,password)
     return render_template('register.html', head = 'Registration!', pagetitle = 'Register')
+
 
 @app.route("/login", methods = ["POST",'GET'])
 def login():
