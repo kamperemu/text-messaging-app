@@ -39,7 +39,7 @@ def login():
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = '')
 
 
-
+#get local ip address of the server-host device.
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
