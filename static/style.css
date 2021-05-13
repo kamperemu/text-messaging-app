@@ -4,10 +4,15 @@ form{
     font-size: 27px; 
     font-weight: 300; 
     line-height: 58px;
+    text-align: center;
     margin: auto;
     padding: auto;
     position:relative;
     width:25%;
+}
+
+.form-group{
+    padding:15px;
 }
 
 .btn{
@@ -27,8 +32,7 @@ body{
 
 
 .head{
-    font-size: 75px;
-    margin-bottom: 45px;
+    font-size: 60px;
     color: coral;
     padding-top: 100px;
 }
@@ -51,3 +55,7 @@ body{
   } 
 
   
+hr{
+    border: 1px solid gray;
+}
+

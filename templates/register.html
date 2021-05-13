@@ -15,6 +15,7 @@
 
 <form action = '#' method = 'post' class = 'input'>
     <h1 class = 'head'>{{head}}</h1>
+    <hr></hr>
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" name = 'username' class="form-control" id="username" placeholder="Enter username">
@@ -24,6 +25,7 @@
       <label for="password">Password</label>
       <input type="password" name = 'password' class="form-control" id="password" placeholder="Password">
     </div>
+    <h5>{{user_status}}</h5>
     <button formmethod="POST" id='submit' type="submit" class="btn btn-primary">Submit</button>
 </form>
 

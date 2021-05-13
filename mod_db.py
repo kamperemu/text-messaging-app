@@ -9,42 +9,34 @@ db = sql.connect(
         database = 'textapp'
     )
 
-def pop(action,message):
-    root = tkinter.Tk()
-    root.withdraw()
-    if action == 'error':
-        messagebox.showerror('Error',message)
-    elif action == 'info':
-        messagebox.showinfo('Info',message)
-    root.destroy()
 
+#function to register/login and fetch data from sqldb
 def add(action,username,password):
-
     cursor = db.cursor()
     if action == 'register':
         try:
             cursor.execute('SELECT id from details')
             count = cursor.fetchall()
+            print(count)
             cursor.execute('''
             INSERT INTO details(id,username,password) VALUES(%s,%s,%s)''',(count[0][0]+1,username, password))
-
+    
         except sql.IntegrityError:
-            pop('error',"Username '" + username + "' already exists.")
+            return("Username '" + username + "' already exists.")
         else:
             db.commit()  
-        
-
+            return("User '" + username + "'registered successfully!")
 
     elif action == 'login':
         try:
             cursor.execute("""SELECT * from details where username = %s""",(username,)) #no curly brackets around %s, ensure tuple format.
             data = cursor.fetchall()
-            if data[0][2] == password: #TYPE ERROR INCORRECT USEER.
-                pop('info',"LOGIN SUCCESSFUL!")
+            if data[0][2] == password: 
+                return("Login successful!")
             else:
-                pop('error',"Incorrect Password")
+                return("Incorrect Password")
         except: #index error since even if username doesn't exist in db, it gives empty tuple.
-            pop('error',"User doesn't exist. Please try again.")  
+            return("User doesn't exist. Please try again.")  
         
 
     
