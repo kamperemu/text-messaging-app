@@ -1,19 +1,31 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, session
 import mod_db as mydb
 import socket
 
 app = Flask(__name__)
-
+app.secret_key = 'duosandounsaoudasuodousandos'
 
 def add_data(action,username,password):
     if username != '' and password != '':
-        return(mydb.add(action,username,password))
+        return(mydb.add(action,username,password,session))
 
 
 @app.route('/', methods = ['GET','POST'])
 @app.route('/home', methods = ['GET','POST'])
 def home():
-    return render_template('home.html')
+    if request.method == 'POST':
+        if request.form.get('logout'):
+            #if no user logged in, can't perform the logout action.
+            if 'username' not in session:
+                return render_template('home.html', info = 'No user is currently logged in.')
+            #if some user is logged in, remove it from the session.
+            else:
+                user = session.pop('username')
+                session.pop('password')
+                return render_template('home.html', info = "User '" + user + "' logged out successfully!")
+    elif request.method == 'GET':        
+        print(session)
+        return render_template('home.html', info='')
 
 
 @app.route("/register", methods = ["POST",'GET'])
@@ -34,7 +46,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         result = add_data('login',username,password)
+        if result == "Login successful!" and session.get('username') is None:
+            session['username'] = username
+            session['password'] = password
+        print(username,password,session)
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = result)
+           
     else:
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = '')
 
