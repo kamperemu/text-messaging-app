@@ -1,4 +1,4 @@
-form{
+.reg_form{
     color: #ffffff; 
     font-family: 'Lato', sans-serif; 
     font-size: 27px; 
@@ -16,9 +16,13 @@ form{
 }
 
 .btn{
-    font-size: 30px;
+    font-size: 45px;
+    padding:2px;
+    margin:5px;
     background-color:wheat;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:rgb(51, 45, 45);
+    width:250px;
 }
 
 
@@ -37,25 +41,17 @@ body{
     padding-top: 100px;
 }
 
-.home_indivbtns{
-    padding: 30px 90px;
-    color:white;
-    background-color: cornflowerblue;
-    border-radius: 12px;
-    transition-duration: 0.4s;
-    font-size: 25px;
-    display:flex;
-    margin:auto;
-}
-
-
-.home_indivbtns:hover {
-    background-color: #0924b9;
-    color: white;
-  } 
 
   
 hr{
     border: 1px solid gray;
 }
 
+.homebtns{
+    position: absolute;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+    text-align: center;
+}
