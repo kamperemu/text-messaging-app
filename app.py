@@ -1,13 +1,15 @@
 from flask import Flask, redirect, render_template, request, url_for, session
-import mod_db as mydb
+import mod_db as userdb
 import socket
+import time, random
+import chat_db as roomdb
 
 app = Flask(__name__)
 app.secret_key = 'duosandounsaoudasuodousandos'
 
 def add_data(action,username,password):
     if username != '' and password != '':
-        return(mydb.add(action,username,password,session))
+        return(userdb.add(action,username,password,session))
 
 
 @app.route('/', methods = ['GET','POST'])
@@ -40,20 +42,54 @@ def register():
         #before submitting the form, while in get method, result is not executed since no post has been done.
         return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = '')
 
+def rand_id():
+    return random.randint(10000000,99999999)
+
+def roomTable():
+    print(rand_id())
+    roomdb.createTable(rand_id())
+
+#CREATE TABLE FOR CHAT
+
 @app.route("/login", methods = ["POST",'GET'])
 def login():
+    #click the submit button on login page
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         result = add_data('login',username,password)
+        #iff successful login and no other user logged in
         if result == "Login successful!" and session.get('username') is None:
             session['username'] = username
             session['password'] = password
-        print(username,password,session)
-        return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = result)
-           
+            time.sleep(1)
+            roomTable()
+            return redirect(url_for('chatroom', id = rand_id()))
+        else:
+            #unsuccessful login by:
+            #1: no field empty but someone is logged in
+            if result is not None and 'username' in session:
+                return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = "A user is already logged in.")
+            #2: no field empty but no user is logged in
+            elif result is not None and 'username' not in session:
+                print(session)
+                return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = result)
+            #3: some field empty, and a user is logged in 
+            elif result is None and 'username' in session: 
+                return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = "A user is already logged in.") 
+            #4: one or more fields empty while no user is logged in.
+            else:
+                return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = "Invalid details. Please try again.")
+                
     else:
+        #just visiting the login page.
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = '')
+
+
+@app.route('/chatroom/<id>', methods = ["GET","POST"])
+def chatroom(id):
+    return render_template('chatroom.html')
+
 
 
 #get local ip address of the server-host device.
@@ -62,5 +98,3 @@ ip_address = socket.gethostbyname(hostname)
 
 if __name__ == '__main__':
     app.run(debug = True, host = ip_address, port = 5000)
-
-#MY IP ADDRESS: 192.168.100.3
