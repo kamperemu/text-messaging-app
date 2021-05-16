@@ -7,7 +7,8 @@ db = sql.connect(
         database = 'roomdb'
     )
 
-def createTable(id):
+def createTable(host):
     cursor = db.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS _%s (user varchar(50), message varchar(150))",(id,))
+    cursor.execute("CREATE TABLE IF NOT EXISTS t_{name} (message varchar(150) default 'None')".format(name = host))
     db.commit()
+    
