@@ -46,8 +46,7 @@ def rand_id():
     return random.randint(10000000,99999999)
 
 def roomTable():
-    print(rand_id())
-    roomdb.createTable(rand_id())
+    roomdb.createTable(session['username'])
 
 #CREATE TABLE FOR CHAT
 
@@ -63,8 +62,8 @@ def login():
             session['username'] = username
             session['password'] = password
             time.sleep(1)
-            roomTable()
-            return redirect(url_for('chatroom', id = rand_id()))
+            return redirect(url_for('chatroomIndex'))
+
         else:
             #unsuccessful login by:
             #1: no field empty but someone is logged in
@@ -86,11 +85,35 @@ def login():
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = '')
 
 
-@app.route('/chatroom/<id>', methods = ["GET","POST"])
-def chatroom(id):
-    return render_template('chatroom.html')
+#page where user chooses to join or create a room.
+@app.route('/chatroom', methods = ["GET","POST"])
+def chatroomIndex():
+    if 'username' in session:
+        if request.method == "POST":
+            if request.form.get('create'):
+                tableId = rand_id()
+                roomTable()
+                return redirect(url_for('roomFinal',id=tableId))
 
+            elif request.form.get('join'):
+                userEnteredId = request.form['userEnteredId']
+                #MATCH USERENTEREDID WITH ANY EXISTING CHATROOM
+                #MAKE USE OF RANDOM ID
+                
+        else:
+            return render_template('chatroom_index.html')
+    else:
+        return render_template('home.html', info = "Log in first to join a chatroom.")
 
+@app.route('/room/id=<id>', methods = ["GET","POST"])
+def roomFinal(id):
+    if 'username' in session:
+        url = request.url
+        id = url[-1:-9:-1][::-1]
+        print(id)
+        return render_template('roomFinal.html',id=id)
+    else:
+        return render_template('home.html', info = "Log in first to join a chatroom.")
 
 #get local ip address of the server-host device.
 hostname = socket.gethostname()
