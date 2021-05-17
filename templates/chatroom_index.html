@@ -7,7 +7,8 @@
 {% block content %}
 <form method = 'POST' class = 'chatroom'>
     
-    <input type="text" name = 'userEnteredId' class="form-control" id="userEnteredId" placeholder="Enter RoomID" style = 'visibility:visible; width: 25%'>
+    <input type="text" name = 'userEnteredId' class="form-control" id="userEnteredId" placeholder="Enter RoomID" style = 'width: 250px'>
+    <input type="text" name = 'userEnteredHost' class="form-control" id="userEnteredId" placeholder="Enter Host Name" style = 'width: 250px'>
     <a href = '#'>
         <button type="submit" value = 'join' formmethod = 'POST' name = 'join' class="btn btn-success">Join Chatroom</button>
     </a>
@@ -16,4 +17,5 @@
         <button type="submit" value = 'create' formmethod = 'POST' name = 'create' class="btn btn-success">Create Chatroom</button>
     </a>
 </form>
+<h4 style = 'color:bisque'>{{info}}</h4>
 {% endblock %}
