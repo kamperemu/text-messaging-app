@@ -13,6 +13,8 @@ def add(action,username,password,session):
     cursor = db.cursor()
     if action == 'register':
         try:
+            if ' ' in username:
+                return ("No spaces are allowed in the username.")
             cursor.execute('SELECT id from details')
             count = cursor.fetchall()
             cursor.execute('''
