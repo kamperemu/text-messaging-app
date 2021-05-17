@@ -4,6 +4,7 @@ import socket
 import time, random
 import chat_db as roomdb
 
+
 app = Flask(__name__)
 app.secret_key = 'duosandounsaoudasuodousandos'
 
@@ -42,11 +43,7 @@ def register():
         #before submitting the form, while in get method, result is not executed since no post has been done.
         return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = '')
 
-def rand_id():
-    return random.randint(10000000,99999999)
 
-def roomTable():
-    roomdb.createTable(session['username'])
 
 #CREATE TABLE FOR CHAT
 
@@ -61,6 +58,7 @@ def login():
         if result == "Login successful!" and session.get('username') is None:
             session['username'] = username
             session['password'] = password
+            session.permanent = False
             time.sleep(1)
             return redirect(url_for('chatroomIndex'))
 
@@ -84,6 +82,11 @@ def login():
         #just visiting the login page.
         return render_template('login.html',head = 'Login!', pagetitle = 'Login', user_status = '')
 
+def rand_id():
+    return random.randint(10000000,99999999)
+
+def roomTable(roomID):
+    roomdb.createTable(session['username'],roomID)
 
 #page where user chooses to join or create a room.
 @app.route('/chatroom', methods = ["GET","POST"])
@@ -92,16 +95,16 @@ def chatroomIndex():
         if request.method == "POST":
             if request.form.get('create'):
                 tableId = rand_id()
-                roomTable()
+                roomTable(tableId)
                 return redirect(url_for('roomFinal',id=tableId))
 
             elif request.form.get('join'):
                 userEnteredId = request.form['userEnteredId']
-                #MATCH USERENTEREDID WITH ANY EXISTING CHATROOM
-                #MAKE USE OF RANDOM ID
-                
+                userEnteredHost = request.form['userEnteredHost']
+                result = roomdb.connect(userEnteredHost,userEnteredId)
+                return render_template('chatroom_index.html', info = result)
         else:
-            return render_template('chatroom_index.html')
+            return render_template('chatroom_index.html', info = '')
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")
 
