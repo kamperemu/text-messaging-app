@@ -1,6 +1,7 @@
-from flask import Flask, redirect, render_template, request, url_for, session
-import mod_db as userdb
+from flask import Flask, redirect, render_template, request, url_for, session, flash
+from bs4 import BeautifulSoup as Soup
 import socket
+import users_db as userdb
 import time, random
 import chat_db as roomdb
 
@@ -8,9 +9,7 @@ import chat_db as roomdb
 app = Flask(__name__)
 app.secret_key = 'duosandounsaoudasuodousandos'
 
-def add_data(action,username,password):
-    if username != '' and password != '':
-        return(userdb.add(action,username,password,session))
+
 
 
 @app.route('/', methods = ['GET','POST'])
@@ -27,9 +26,11 @@ def home():
                 session.pop('password')
                 return render_template('home.html', info = "User '" + user + "' logged out successfully!")
     elif request.method == 'GET':        
-        print(session)
         return render_template('home.html', info='')
 
+def add_data(action,username,password):
+    if username != '' and password != '':
+        return(userdb.add(action,username,password,session))
 
 @app.route("/register", methods = ["POST",'GET'])
 def register():
@@ -38,14 +39,14 @@ def register():
         password = request.form['password']
         #result is the returned output which tells us whether the user exists or not.
         result = add_data('register',username,password)
+        if result is None:
+            return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = "Invalid details. Please try again.")
         return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = result)
     else:
         #before submitting the form, while in get method, result is not executed since no post has been done.
         return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = '')
 
 
-
-#CREATE TABLE FOR CHAT
 
 @app.route("/login", methods = ["POST",'GET'])
 def login():
@@ -96,25 +97,51 @@ def chatroomIndex():
             if request.form.get('create'):
                 tableId = rand_id()
                 roomTable(tableId)
+                session['host'] = session['username']
                 return redirect(url_for('roomFinal',id=tableId))
 
             elif request.form.get('join'):
                 userEnteredId = request.form['userEnteredId']
                 userEnteredHost = request.form['userEnteredHost']
-                result = roomdb.connect(userEnteredHost,userEnteredId)
-                return render_template('chatroom_index.html', info = result)
+                result = roomdb.connect(session['username'],userEnteredHost,userEnteredId)
+                flash (result)
+                if result == "Successfully connected to the chatroom!":
+                    time.sleep(1)
+                    session['host'] = userEnteredHost
+                    return redirect(url_for('roomFinal', id = userEnteredId))
+
+                return render_template('chatroom_index.html')
         else:
-            return render_template('chatroom_index.html', info = '')
+            return render_template('chatroom_index.html')
     else:
-        return render_template('home.html', info = "Log in first to join a chatroom.")
+        flash ("Login first to join a chatroom")
+        return render_template('home.html')
+        
+'''
+def appendUser(userJoined):
+    with open('F:\Vatsal\\text-app\\text-messaging-app\\templates\\roomFinal.html', "r") as html_file:
+        soup = Soup(html_file, 'lxml') 
+        p_last = soup.find_all("p")[-1]
+        if p_last.string == userJoined+' joined the room.':
+            p = soup.new_tag('p')
+            p.string = userJoined + " joined the room."
+            p_last.insert_after(p)
+            print(p_last.string, userJoined+' joined the room.')
+        
+    with open('F:\Vatsal\\text-app\\text-messaging-app\\templates\\roomFinal.html', "w") as f:
+        f.write(str(soup.prettify()))'''
+
 
 @app.route('/room/id=<id>', methods = ["GET","POST"])
 def roomFinal(id):
     if 'username' in session:
-        url = request.url
-        id = url[-1:-9:-1][::-1]
-        print(id)
-        return render_template('roomFinal.html',id=id)
+        #url = request.url
+        #id = url[-1:-9:-1][::-1]
+        joinedIn = roomdb.joinedUsers(session['host'])
+        print(joinedIn)
+        #appendUser(session['username'])
+        flash (joinedIn)
+        return render_template('roomFinal.html',id=id, host = session['host'])
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")
 
