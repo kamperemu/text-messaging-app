@@ -9,13 +9,19 @@ db = sql.connect(
 
 def createTable(host,roomID):
     cursor = db.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS t_{name}
+    cursor.execute(''' SHOW TABLES LIKE 't_{host}' '''.format(host = host))
+    checkTable = cursor.fetchone()
+    if checkTable is not None:
+        cursor.execute("TRUNCATE TABLE t_{host} ".format(host=host))
+    cursor.execute('''CREATE TABLE IF NOT EXISTS t_{host}
      (roomID varchar(10) default 'None',
-      message varchar(150) default 'None')'''.format(name = host))
-    cursor.execute('''INSERT INTO t_{name}(roomID) values ({id})'''.format(name = host, id = roomID))
+      users varchar(50) default  'None',
+      message varchar(150) default 'None')'''.format(host = host))
+    #Unknown column error, hence put '' around id,host in values (else not treated as a string.)
+    cursor.execute('''INSERT INTO t_{host}(roomID, users) values ('{id}','{host}')'''.format(host = host, id = roomID))
     db.commit()
     
-def connect(host, roomID):
+def connect(curUser,host,roomID):
     cursor = db.cursor()
     cursor.execute(''' SHOW TABLES LIKE 't_{host}' '''.format(host = host))
     hostname = cursor.fetchone()
@@ -28,9 +34,17 @@ def connect(host, roomID):
         checkID = cursor.fetchone()[0]
 
         if checkID == roomID and hostname[2::] == host:
+            cursor.execute("INSERT INTO t_{host}(users) VALUES ('{user}')".format(host = host, user = curUser))
             return "Successfully connected to the chatroom!"
         else:
             return "One or more details are incorrectly entered."
+
+def joinedUsers(host):
+    cursor = db.cursor()
+    cursor.execute("SELECT users from t_{host}".format(host = host))
+    data = cursor.fetchall()
+    return data
+
 
 
 
