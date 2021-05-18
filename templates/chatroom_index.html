@@ -17,5 +17,11 @@
         <button type="submit" value = 'create' formmethod = 'POST' name = 'create' class="btn btn-success">Create Chatroom</button>
     </a>
 </form>
-<h4 style = 'color:bisque'>{{info}}</h4>
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <h4 style = 'color:bisque'>{{msg}}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 {% endblock %}

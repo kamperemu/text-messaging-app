@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta http-equiv="refresh" content="5"> 
+{% endblock %}
+
+{% block title %}
+room#{{id}}
+{% endblock %}
+
+{% block content %}
+    <div class = 'joinedinUsers'>
+        <p id = 'hostJoined'>{{host}} joined the room.</p>
+    </div>
+            
+{% endblock %}
