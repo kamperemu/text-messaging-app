@@ -16,5 +16,17 @@ room#{{id}}
             {% endfor %}
         {% endif %}
     {% endwith %}
-            
+<br>
+<br>
+<form action= "#" method = "POST">
+    <div class="formMsg">
+        <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
+        <hr></hr>
+        <textarea id="typeMsg" rows="2"></textarea>
+    </div>
+    <input class="submitMsg btn-primary" type="submit" value="Submit" id = "enter" name = 'enter'></input>
+    <div class = 'dispMsg'>
+        <h1 style = 'color:bisque'>Hi</h1>
+    </div>
+</form>    
 {% endblock %}

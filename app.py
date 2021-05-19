@@ -116,21 +116,7 @@ def chatroomIndex():
     else:
         flash ("Login first to join a chatroom")
         return render_template('home.html')
-        
-'''
-def appendUser(userJoined):
-    with open('F:\Vatsal\\text-app\\text-messaging-app\\templates\\roomFinal.html', "r") as html_file:
-        soup = Soup(html_file, 'lxml') 
-        p_last = soup.find_all("p")[-1]
-        if p_last.string == userJoined+' joined the room.':
-            p = soup.new_tag('p')
-            p.string = userJoined + " joined the room."
-            p_last.insert_after(p)
-            print(p_last.string, userJoined+' joined the room.')
-        
-    with open('F:\Vatsal\\text-app\\text-messaging-app\\templates\\roomFinal.html', "w") as f:
-        f.write(str(soup.prettify()))'''
-
+    
 
 @app.route('/room/id=<id>', methods = ["GET","POST"])
 def roomFinal(id):
@@ -138,9 +124,8 @@ def roomFinal(id):
         #url = request.url
         #id = url[-1:-9:-1][::-1]
         joinedIn = roomdb.joinedUsers(session['host'])
-        print(joinedIn)
-        #appendUser(session['username'])
-        flash (joinedIn)
+        info = "Current users:" + str(joinedIn)
+        flash (info)
         return render_template('roomFinal.html',id=id, host = session['host'])
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")

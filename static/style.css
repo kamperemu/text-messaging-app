@@ -66,3 +66,12 @@ hr{
     margin: -100px 0 0 -150px;
     text-align: center;
 }
+
+.formMsg{
+    margin-right: 0cm;
+}
+
+.dispMsg{
+    background-color:wheat;
+    text-align: left;
+}
