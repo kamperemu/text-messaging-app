@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<meta http-equiv="refresh" content="5"> 
+<meta http-equiv="refresh" content="5">
 {% endblock %}
 
 {% block title %}
@@ -21,12 +21,14 @@ room#{{id}}
 <form action= "#" method = "POST">
     <div class="formMsg">
         <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
-        <hr></hr>
+        <hr class = 'roomLine'></hr>
         <textarea id="typeMsg" rows="2"></textarea>
+        <br>
+        <input class="submitMsg btn-primary" type="submit" value="Enter" id = "enter" name = 'enter'></input>
     </div>
-    <input class="submitMsg btn-primary" type="submit" value="Submit" id = "enter" name = 'enter'></input>
+    
     <div class = 'dispMsg'>
-        <h1 style = 'color:bisque'>Hi</h1>
+        <p></p>
     </div>
 </form>    
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<meta http-equiv="refresh" content="5"> 
+<meta http-equiv="refresh" content="5">
 {% endblock %}
 
 {% block title %}
@@ -9,8 +9,26 @@ room#{{id}}
 {% endblock %}
 
 {% block content %}
-    <div class = 'joinedinUsers'>
-        <p id = 'hostJoined'>{{host}} joined the room.</p>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <h4 style = 'color:bisque'>{{msg}}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<br>
+<br>
+<form action= "#" method = "POST">
+    <div class="formMsg">
+        <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
+        <hr class = 'roomLine'></hr>
+        <textarea id="typeMsg" rows="2"></textarea>
+        <br>
+        <input class="submitMsg btn-primary" type="submit" value="Enter" id = "enter" name = 'enter'></input>
     </div>
-            
+    
+    <div class = 'dispMsg'>
+        <p></p>
+    </div>
+</form>    
 {% endblock %}
