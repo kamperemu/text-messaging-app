@@ -9,8 +9,15 @@ import chat_db as roomdb
 app = Flask(__name__)
 app.secret_key = 'duosandounsaoudasuodousandos'
 
+#reset the roomFinal html final everytime the server is run.
+def reset():
+    with open ('templates\\tempRoom.html','r') as f:
+        tempCont = f.read()
 
+    with open ('templates\\roomFinal.html','w') as f:
+        f.write(tempCont)
 
+reset()
 
 @app.route('/', methods = ['GET','POST'])
 @app.route('/home', methods = ['GET','POST'])
@@ -94,6 +101,8 @@ def roomTable(roomID):
 def chatroomIndex():
     if 'username' in session:
         if request.method == "POST":
+            #request.form.get(parameter) for which button clicked
+            #parameter is the name of the html element, not its value
             if request.form.get('create'):
                 tableId = rand_id()
                 roomTable(tableId)
@@ -116,6 +125,19 @@ def chatroomIndex():
     else:
         flash ("Login first to join a chatroom")
         return render_template('home.html')
+
+def dispMsg(text):
+    with open('templates\\roomFinal.html', "r") as f:
+        soup = Soup(f, 'lxml') 
+        p_last = soup.find_all("p")[-1]
+        p = soup.new_tag('p')
+        p.string = text
+        p_last.insert_after(p)
+        
+
+    with open('templates\\roomFinal.html', "w") as f:
+        f.write(str(soup))
+        
     
 
 @app.route('/room/id=<id>', methods = ["GET","POST"])
@@ -126,6 +148,16 @@ def roomFinal(id):
         joinedIn = roomdb.joinedUsers(session['host'])
         info = "Current users:" + str(joinedIn)
         flash (info)
+        #if enter button pressed
+        if request.form.get('enter'):
+            listMsgs = roomdb.get_allMsg(session['host'])
+            #the listMsgs format: [(user1,msg1),(user2,msg2)...]
+            for content in listMsgs:
+                user = content[0]
+                msg = content[1]
+                combined = user + ': ' + msg
+                dispMsg(combined)
+                #NEXT: GET MESSAGES WORKING
         return render_template('roomFinal.html',id=id, host = session['host'])
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")
