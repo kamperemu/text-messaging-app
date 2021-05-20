@@ -8,6 +8,6 @@ db = sql.connect(
     )
 
 cursor = db.cursor()
-cursor.execute('SHOW TABLES')
+cursor.execute('SELECT users,message from t_test')
 data = cursor.fetchall()
 print(data)

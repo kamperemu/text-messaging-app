@@ -68,10 +68,25 @@ hr{
 }
 
 .formMsg{
-    margin-right: 0cm;
+    margin-left: 25cm;
+    margin-right: 30px;
+    text-align: center;
+    border-width: 5px;
+    border-style: solid;
+    border-color: red;
+    position: relative;
 }
 
 .dispMsg{
-    background-color:wheat;
+    border-width: 5px;
+    border-style: solid;
+    border-color: red;
+    background-color:black;
+    padding-left: 50px;
+    margin-right: 600px;
+    margin-left:10px;
     text-align: left;
+    position: relative;
+    top:150px;
 }
+
