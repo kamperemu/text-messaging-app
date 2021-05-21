@@ -68,8 +68,7 @@ hr{
 }
 
 .formMsg{
-    margin-left: 25cm;
-    margin-right: 30px;
+    margin:auto;
     text-align: center;
     border-width: 5px;
     border-style: solid;
