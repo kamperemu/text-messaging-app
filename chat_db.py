@@ -30,7 +30,7 @@ def connect(curUser,host,roomID):
     hostname = cursor.fetchone()
 
     if hostname == None:
-        return "This user has not hosted a room currently."
+        return "Invalid details entered"
     else:
         hostname = hostname[0]
         cursor.execute(" SELECT roomID from t_{host} where roomID != 'None' ".format(host = host))
@@ -41,12 +41,12 @@ def connect(curUser,host,roomID):
             cursor.execute("INSERT INTO t_{host}(users) VALUES ('{user}')".format(host = host, user = curUser))
             return "Successfully connected to the chatroom!"
         else:
-            return "One or more details are incorrectly entered."
+            return "Invalid details entered"
 
 #get list of all users in a room
 def joinedUsers(host):
     cursor = db.cursor()
-    cursor.execute("SELECT users from t_{host}".format(host = host))
+    cursor.execute("SELECT distinct users from t_{host}".format(host = host))
     data = cursor.fetchall()
     return data
 
@@ -58,7 +58,7 @@ def appendMsg(user, msg, host):
 
 def get_allMsg(host):
     cursor = db.cursor()
-    cursor.execute("SELECT users,message from t_{host}".format(host = host))
+    cursor.execute("SELECT users,message from t_{host} where message != 'None'".format(host = host))
     data = cursor.fetchall()
     return data
 
