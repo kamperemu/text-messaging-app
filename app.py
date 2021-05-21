@@ -11,7 +11,7 @@ app.secret_key = 'duosandounsaoudasuodousandos'
 
 #reset the roomFinal html final everytime the server is run.
 def reset():
-    with open ('templates\\tempRoom.html','r') as f:
+    with open ('templates\\roomBase.html','r') as f:
         tempCont = f.read()
 
     with open ('templates\\roomFinal.html','w') as f:
@@ -150,14 +150,17 @@ def roomFinal(id):
         flash (info)
         #if enter button pressed
         if request.form.get('enter'):
+            msg = request.form['typeMsg']
+            roomdb.appendMsg(session['username'],msg,session['host'])
             listMsgs = roomdb.get_allMsg(session['host'])
+            reset()
             #the listMsgs format: [(user1,msg1),(user2,msg2)...]
             for content in listMsgs:
                 user = content[0]
                 msg = content[1]
                 combined = user + ': ' + msg
                 dispMsg(combined)
-                #NEXT: GET MESSAGES WORKING
+                #NEXT: FIX BUGS LIKE WHEN TO DISPLAY MSG
         return render_template('roomFinal.html',id=id, host = session['host'])
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")
