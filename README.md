@@ -12,6 +12,7 @@ emoticons
 
 testing from ubuntu
 
+----------------------------
 working of the textapp
 
 1) Login:
@@ -30,3 +31,11 @@ stored the html of the base of the chatting page in tempRoom.html. everytime the
 This is because everytime a new message is entered in the chatroom, it gets stored in the database. THe message along with the user who entered that message is pulled from the database and using BeautifulSoup, its added into roomFinal.html. Everytime a new message is entered, the roomFinal.html file is reset to its original form, and the old messages along with the new message is entered as a <p> tag in roomFinal. Its necessary to reset the page everytime cuz otherwise it would cuz it would result in the display of duplicates of the messages. set the page refresh time to anything (set for 5 secs now) so that the changes in the webpage are visible to all the users (or else theyll have to manually refresh the page).
 
 PS: i didnt focus on styling the pages much, thats why its just a bunch of stuff put in the page. but yeah it does work properly nonetheless.
+----------------------------
+  stuff to add/modify
+ - 2 diff users can login thru the same device using the same browser (not needed tho, cuz the whole point is to have users chatting from different devices)
+ - styling using css, or it can be done later also
+ - fixing the refresh feature. for now, the page refreshes every 5 seconds but it should only refresh the div tag which displays the messages.
+ - enter a message by pressing the enter button as well, not necessarily clicking the enter button
+ - automatically setup the databases and the tables for the user (if the databases and the tables are not yet created for the user)
+  
