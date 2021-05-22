@@ -23,14 +23,17 @@ def createTable(host,roomID):
     cursor.execute('''INSERT INTO t_{host}(roomID, users) values ('{id}','{host}')'''.format(host = host, id = roomID))
     db.commit()
     
+
 def connect(curUser,host,roomID):
     cursor = db.cursor()
     #get list of all tables to see if the host has already hosted one room or not
     cursor.execute(''' SHOW TABLES LIKE 't_{host}' '''.format(host = host))
     hostname = cursor.fetchone()
 
+    #hostname field is left empty
     if hostname == None:
         return "Invalid details entered"
+
     else:
         hostname = hostname[0]
         cursor.execute(" SELECT roomID from t_{host} where roomID != 'None' ".format(host = host))
@@ -43,6 +46,7 @@ def connect(curUser,host,roomID):
         else:
             return "Invalid details entered"
 
+
 #get list of all users in a room
 def joinedUsers(host):
     cursor = db.cursor()
@@ -50,12 +54,14 @@ def joinedUsers(host):
     data = cursor.fetchall()
     return data
 
+#add the user along with the message he entered in the db
 def appendMsg(user, msg, host):
     cursor = db.cursor()
     cursor.execute('''INSERT INTO t_{host}(users, message)
                     values ('{user}','{msg}')'''.format(host = host, user = user, msg = msg))
     db.commit()
 
+#select all (users:message) from the database to display in the room.
 def get_allMsg(host):
     cursor = db.cursor()
     cursor.execute("SELECT users,message from t_{host} where message != 'None'".format(host = host))

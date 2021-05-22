@@ -36,6 +36,7 @@ PS: i didnt focus on styling the pages much, thats why its just a bunch of stuff
  - 2 diff users can login thru the same device using the same browser (not needed tho, cuz the whole point is to have users chatting from different devices)
  - styling using css, or it can be done later also
  - fixing the refresh feature. for now, the page refreshes every 5 seconds but it should only refresh the div tag which displays the messages.
- - enter a message by pressing the enter button as well, not necessarily clicking the enter button
  - automatically setup the databases and the tables for the user (if the databases and the tables are not yet created for the user)
+
+ NOTE: IF YOU'RE MAKING ANY CHANGE IN ROOMFINAL.HTML, MAKE THE EXACT SAME CHANGE IN ROOMBASE.HTML (EVERY TIME THE SERVER IS RUN, ROOMFINAL GETS RESET TO ROOMBASE.) AND ENSURE THAT WHILE MODIFYING THE FILE, ROOMFINAL HAS THE SAME CONTENT AS ROOMBASE.
   
