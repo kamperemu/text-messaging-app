@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<!--refresh the page every 5 seconds. fix this if possible (refresh only the dispMsg div)-->
 <meta http-equiv="refresh" content="5">
 {% endblock %}
 
@@ -8,6 +9,7 @@
 room#{{id}}
 {% endblock %}
 
+<!--ignore-->
 {% block content %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -16,8 +18,12 @@ room#{{id}}
             {% endfor %}
         {% endif %}
     {% endwith %}
+
 <br>
 <br>
+<!--reference for knowing when end button pressed, to logout all clients-->
+<p hidden id = 'redirectEnd'></p>
+
 <form action= "#" method = "POST">
     <div class="formMsg">
         <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
@@ -25,10 +31,20 @@ room#{{id}}
         <input id="typeMsg" name = "typeMsg"></input>
         <br>
         <input class="submitMsg btn-primary" type="submit" value="Enter" id = "enter" name = 'enter'></input>
+        
+        <!--if host is logged in, then this button should be visible.-->
+        {% if checkHost == 'host' %}
+            <button class="btnEndRoom btn-danger" name = 'endButton' onclick = 'endRoom()' id="endButton" type="button">End Room</button>
+        {% endif %} 
     </div>
     
     <div class = 'dispMsg' style = 'color:azure'>
-        <p></p>
+        <!--reference for checking if host is logged in, and also for displaying messages-->
+        <p hidden id = 'checkHost'>
+            {{checkHost}}
+        </p>
     </div>
-</form>    
+    
+    </form>    
+    
 {% endblock %}

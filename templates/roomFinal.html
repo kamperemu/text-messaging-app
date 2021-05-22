@@ -18,6 +18,7 @@ room#{{id}}
     {% endwith %}
 <br>
 <br>
+<p hidden id = 'redirectEnd'></p>
 <form action= "#" method = "POST">
     <div class="formMsg">
         <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
@@ -25,10 +26,17 @@ room#{{id}}
         <input id="typeMsg" name = "typeMsg"></input>
         <br>
         <input class="submitMsg btn-primary" type="submit" value="Enter" id = "enter" name = 'enter'></input>
+        {% if checkHost == 'host' %}
+            <button class="btnEndRoom btn-danger" name = 'endButton' onclick = 'endRoom()' id="endButton" type="button">End Room</button>
+        {% endif %} 
     </div>
     
     <div class = 'dispMsg' style = 'color:azure'>
-        <p></p>
+        <p hidden id = 'checkHost'>
+            {{checkHost}}
+        </p>
     </div>
-</form>    
+    
+    </form>    
+    
 {% endblock %}
