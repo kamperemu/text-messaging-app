@@ -10,6 +10,7 @@ app = Flask(__name__)
 app.secret_key = 'duosandounsaoudasuodousandos'
 
 #reset the roomFinal html final everytime the server is run.
+
 def reset():
     with open ('templates\\roomBase.html','r') as f:
         tempCont = f.read()
@@ -27,14 +28,17 @@ def home():
             #if no user logged in, can't perform the logout action.
             if 'username' not in session:
                 return render_template('home.html', info = 'No user is currently logged in.')
+
             #if some user is logged in, remove it from the session.
             else:
                 user = session.pop('username')
                 session.pop('password')
                 return render_template('home.html', info = "User '" + user + "' logged out successfully!")
+
     elif request.method == 'GET':        
         return render_template('home.html', info='')
 
+#
 def add_data(action,username,password):
     if username != '' and password != '':
         return(userdb.add(action,username,password,session))
@@ -46,8 +50,11 @@ def register():
         password = request.form['password']
         #result is the returned output which tells us whether the user exists or not.
         result = add_data('register',username,password)
+
+        #empty fields
         if result is None:
             return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = "Invalid details. Please try again.")
+        
         return render_template('register.html', head = 'Registration!', pagetitle = 'Register', user_status = result)
     else:
         #before submitting the form, while in get method, result is not executed since no post has been done.
@@ -62,6 +69,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         result = add_data('login',username,password)
+
         #iff successful login and no other user logged in
         if result == "Login successful!" and session.get('username') is None:
             session['username'] = username
@@ -93,21 +101,26 @@ def login():
 def rand_id():
     return random.randint(10000000,99999999)
 
+#create a table with a random id, name of table is the hostname.
 def roomTable(roomID):
     roomdb.createTable(session['username'],roomID)
 
 #page where user chooses to join or create a room.
 @app.route('/chatroom', methods = ["GET","POST"])
 def chatroomIndex():
+    
+    #prevent access to chatroom without logging in
     if 'username' in session:
         if request.method == "POST":
             #request.form.get(parameter) for which button clicked
             #parameter is the name of the html element, not its value
+
             if request.form.get('create'):
                 tableId = rand_id()
                 roomTable(tableId)
+                #since host created the room
                 session['host'] = session['username']
-                return redirect(url_for('roomFinal',id=tableId))
+                return redirect(url_for('roomFinal',id=tableId, checkHost = 'host'))
 
             elif request.form.get('join'):
                 userEnteredId = request.form['userEnteredId']
@@ -117,18 +130,21 @@ def chatroomIndex():
                 if result == "Successfully connected to the chatroom!":
                     time.sleep(1)
                     session['host'] = userEnteredHost
-                    return redirect(url_for('roomFinal', id = userEnteredId))
-
+                    return redirect(url_for('roomFinal', id = userEnteredId, checkHost = 'host'))
                 return render_template('chatroom_index.html')
+
         else:
             return render_template('chatroom_index.html')
+
     else:
         flash ("Login first to join a chatroom")
         return render_template('home.html')
 
+
 def dispMsg(text):
     with open('templates\\roomFinal.html', "r") as f:
         soup = Soup(f, 'lxml') 
+        #already set a hidden p tag in roomfinal, to use it to add other p tags
         p_last = soup.find_all("p")[-1]
         p = soup.new_tag('p')
         p.string = text
@@ -137,31 +153,57 @@ def dispMsg(text):
 
     with open('templates\\roomFinal.html', "w") as f:
         f.write(str(soup))
-        
-    
+
+#dont modify this, working on the end button for the chatroom.        
+def checkEndPressed():
+    with open('templates\\roomFinal.html', "r") as f:
+        soup = Soup(f, 'lxml') 
+        p = soup.find('p', id = 'redirectEnd')
+        if p.string == 'end':
+            return redirect(url_for('home'))
 
 @app.route('/room/id=<id>', methods = ["GET","POST"])
 def roomFinal(id):
     if 'username' in session:
-        #url = request.url
-        #id = url[-1:-9:-1][::-1]
         joinedIn = roomdb.joinedUsers(session['host'])
-        info = "Current users:" + str(joinedIn)
+        strUsers = ''
+
+        #joinedIn like [(user1,), (user2,),...]
+        for joinedUser in joinedIn:
+            strUsers += joinedUser[0]+', '
+
+        info = "Current users in the room: " + str(strUsers[:-2])
+        showHost = 'Host: ' + str(session['host'])
+        showID = 'Room ID: '+str(id)
         flash (info)
+        flash(showHost)
+        flash (showID)
+        
         #if enter button pressed
         if request.form.get('enter'):
             msg = request.form['typeMsg']
             roomdb.appendMsg(session['username'],msg,session['host'])
             listMsgs = roomdb.get_allMsg(session['host'])
+            #reset the roomFinal page, and re-write it with new changes.
             reset()
             #the listMsgs format: [(user1,msg1),(user2,msg2)...]
+            
             for content in listMsgs:
                 user = content[0]
                 msg = content[1]
                 combined = user + ': ' + msg
                 dispMsg(combined)
-                #NEXT: FIX BUGS LIKE WHEN TO DISPLAY MSG
-        return render_template('roomFinal.html',id=id, host = session['host'])
+        
+        #working on the end button
+        elif request.form.get('endButton'):
+            checkEndPressed()
+
+        #if host is on the room page, end button should be visible. not visible for any other user who joins in.
+        if session['host'] == session['username']:
+            return render_template('roomFinal.html',id=id, host = session['host'], checkHost = 'host')
+        else:
+            return render_template('roomFinal.html',id=id, host = session['host'], checkHost = 'user')
+        #NEXT; GET ENDROOM WORKING
     else:
         return render_template('home.html', info = "Log in first to join a chatroom.")
 
