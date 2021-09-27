@@ -1,4 +1,2 @@
-function endRoom(){
-    alert("HIIIIII")
-}
+
 

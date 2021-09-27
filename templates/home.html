@@ -7,20 +7,27 @@ Home
 
 {% block content %}
 
+
 <div class = 'homebtns'>
-    
+    <h1 class = 'head welcome'>Welcome!</h1>
+    <div class = 'log_reg'>
         <a href = '/login'>
-            <button type="submit" formmethod = 'POST' name = 'LOGIN' class="btn btn-success">Login</button>
+            <button type="submit" id = "login" formmethod = 'POST' name = 'LOGIN' class="btn btn-success">Login</button>
         </a>
         <a href = '/register'>
-            <button type="submit" formmethod = 'POST' name = 'REGISTER' class="btn btn-success">Register</button>
+            <button type="submit" id = "register"  formmethod = 'POST' name = 'REGISTER' class="btn btn-success">Register</button>
         </a>
         <br></br>
     <form method = 'POST'>
-        <button type="submit" value = 'logout' formmethod = 'POST' name = 'logout' class = "btn btn-danger">Logout</button>
-        <h4 style = 'color:cadetblue'>{{info}}</h4>
-    </form> 
+        <div class = 'logout'>
+            <button type="submit" id = "logout"  value = 'logout' formmethod = 'POST' name = 'logout' class = "btn btn-danger">Logout</button>
+            <br></br>
+            <h4 id = 'info' style = 'color:cadetblue'>{{info}}</h4>
+        </div>
+    </form>
 </div>
+</div>
+
 
 
 {% endblock %}

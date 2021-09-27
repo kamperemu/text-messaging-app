@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+Join a Room
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <h4 style = 'color:bisque'>{{msg}}</h4>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<div class = 'homebtns'>
+<form method = 'POST'>
+    
+    <input type="text" name = 'userEnteredId' class="form-control" id="userEnteredId" placeholder="Enter RoomID" style = 'width: 250px'>
+    <input type="text" name = 'userEnteredHost' class="form-control" id="userEnteredId" placeholder="Enter Host Name" style = 'width: 250px'>
+    <button type="submit" value = 'join' formmethod = 'POST' name = 'join' class="btn btn-success">Join Chatroom</button>
+
+</form>
+</div>
+{% endblock %}

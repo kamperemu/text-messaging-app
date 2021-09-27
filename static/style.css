@@ -50,48 +50,126 @@ hr{
 }
 
 .homebtns{
-    position: absolute;
-    z-index: 15;
-    top: 50%;
-    left: 50%;
-    margin: -100px 0 0 -150px;
+    display: flex;              /* establish flex container */
+    flex-direction: column;     /* stack flex items vertically */
+    justify-content: center;    /* center items vertically, in this case */
+    align-items: center;        /* center items horizontally, in this case */
+    text-align: center;
+    height: 300px;
+    margin-top: 10%;
+    position: relative;
+}
+
+#login, #register, #logout {
+    width: 300px;
+    margin: 5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.head.welcome{
+    font-size: 80px;
+    position:relative;
+    padding-bottom: 5%;
+    font-family: "Trebuchet MS", sans-serif;
+    letter-spacing: -2px;
+    border-bottom: 2px solid black;
+    text-transform: uppercase;
+}
+
+
+.log_reg{
+    display: inline-block;
+}
+
+
+#info{
+    position:relative;
     text-align: center;
 }
 
 .chatroom{
-    position: absolute;
-    z-index: 15;
-    top: 50%;
-    left: 50%;
-    margin: -100px 0 0 -150px;
     text-align: center;
 }
 
+
 .formMsg{
-    margin:auto;
+    right: 57%;
+    margin-top: 10%;
+    margin-left:60%;
     text-align: center;
-    border-width: 5px;
-    border-style: solid;
-    border-color: red;
-    position: relative;
+    position: relative;           
+    
 }
 
 .dispMsg{
-    border-width: 5px;
-    border-style: solid;
-    border-color: red;
     background-color:black;
     padding-left: 50px;
-    margin-right: 600px;
-    margin-left:10px;
+    margin-right: 5%;
+    margin-left:50%;
     text-align: left;
     position: relative;
-    top:150px;
+    top:-300px;
+    /* overflow: scroll; */
+    border:1px solid cadetblue;
 }
 
 
+#box {
+    justify-content: left;
+    color: white;
+    /* height: 500px; */
+    font-family: 'Raleway';
+    font-size: 25px;
+    
+  }
+  .gradient-border {
+    --borderWidth: 3px;
+    background: #1D1F20;
+    position: relative;
+    border-radius: var(--borderWidth);
+  }
+  .gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+  }
+  
+  @keyframes animatedgradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+
+  
 .btnEndRoom{
     background-color: rgb(238, 77, 77);
     font-size: 16px;
     position:relative;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+#enter, #endButton, #video{
+    font-size: 20px;
+    padding:10px;
+    width: 110px;
 }

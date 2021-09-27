@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<!--refresh the page every 5 seconds. fix this if possible (refresh only the dispMsg div)-->
 <meta http-equiv="refresh" content="5">
 {% endblock %}
 
@@ -8,6 +9,7 @@
 room#{{id}}
 {% endblock %}
 
+<!--ignore-->
 {% block content %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -16,22 +18,30 @@ room#{{id}}
             {% endfor %}
         {% endif %}
     {% endwith %}
+
 <br>
 <br>
-<p hidden id = 'redirectEnd'></p>
+<!--reference for knowing when end button pressed, to logout all clients-->
+
+
 <form action= "#" method = "POST">
     <div class="formMsg">
         <label for="typeMsg" style = 'color:bisque; size:5px;'>Enter your message:</label>
         <hr class = 'roomLine'></hr>
         <input id="typeMsg" name = "typeMsg"></input>
-        <br>
-        <input class="submitMsg btn-primary" type="submit" value="Enter" id = "enter" name = 'enter'></input>
+        <br></br>
+        <input class="btn btn-success" type="submit" value="Enter" id = "enter" name = 'enter'></input>
+        
+        <!--if host is logged in, then this button should be visible.-->
         {% if checkHost == 'host' %}
-            <button class="btnEndRoom btn-danger" name = 'endButton' onclick = 'endRoom()' id="endButton" type="button">End Room</button>
+            <input class="btn btn-danger"  type="submit" value="End Room" id = "endButton" name = 'endButton'></input> <!--value displayed on button -->
+            <!--<button class="btnEndRoom btn-danger" name = 'endButton' id="endButton" type="submit">End Room</button>-->
         {% endif %} 
+        <input class="btn btn-warning" type="submit" value="Video" id = "video" name = 'video'></input> <!--value displayed on button -->
     </div>
     
-    <div class = 'dispMsg' style = 'color:azure'>
+    <div class = 'gradient-border dispMsg' id = 'box' style = 'color:azure'>
+        <!--reference for checking if host is logged in, and also for displaying messages-->
         <p hidden id = 'checkHost'>
             {{checkHost}}
         </p>
