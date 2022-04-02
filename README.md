@@ -1,14 +1,4 @@
 # text-messaging-app
-basic flask thingy
-sql connection
-login secure
-encrypted messaging system
-
-
-voice recording
-files
-emoticons
-
 
 testing from ubuntu
 ----------------------------
@@ -29,16 +19,15 @@ Join or create a chatroom. each chatroom has a unique roomID and a unique host. 
 4) Main chatting page:
 stored the html of the base of the chatting page in tempRoom.html. everytime the server is hosted, the content of the html file roomFinal.html is replaced with that of the tempRoom.html.
 This is because everytime a new message is entered in the chatroom, it gets stored in the database. THe message along with the user who entered that message is pulled from the database and using BeautifulSoup, its added into roomFinal.html. Everytime a new message is entered, the roomFinal.html file is reset to its original form, and the old messages along with the new message is entered as a <p> tag in roomFinal. Its necessary to reset the page everytime cuz otherwise it would cuz it would result in the display of duplicates of the messages. set the page refresh time to anything (set for 5 secs now) so that the changes in the webpage are visible to all the users (or else theyll have to manually refresh the page).
-
-PS: i didnt focus on styling the pages much, thats why its just a bunch of stuff put in the page. but yeah it does work properly nonetheless.
   
 ----------------------------
 ----------------------------
+  
+  
   stuff to add/modify
  - design changes in css and html
  - fixing the refresh feature by using jquery or similar software. for now, the page refreshes every 5 seconds but it should only refresh the div tag which displays the messages.
  - switch to sqlalchemy or mongodb for better database management
   - merge roombase.html and roomfinal.html using javascript or similar
-
- NOTE: IF YOU'RE MAKING ANY CHANGE IN ROOMFINAL.HTML, MAKE THE EXACT SAME CHANGE IN ROOMBASE.HTML (EVERY TIME THE SERVER IS RUN, ROOMFINAL GETS RESET TO ROOMBASE.) AND ENSURE THAT WHILE MODIFYING THE FILE, ROOMFINAL HAS THE SAME CONTENT AS ROOMBASE.
-  
+  - add voice recording, files, emoticons
+  - better encryption system
