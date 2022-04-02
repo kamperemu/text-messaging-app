@@ -15,7 +15,7 @@ def install(path):
             print(package[:-2])
             subprocess.check_call([sys.executable, "-m", "pip", "install", package[:-2]])
 
-#install("text-messaging-app-master\\requirements.txt")
+
 
 
 host = ''
@@ -25,10 +25,10 @@ app.secret_key = 'duosandounsaoudasuodousandos'
 #reset the roomFinal html final everytime the server is run.
 
 def reset():
-    with open ('text-messaging-app-master\\templates\\roomBase.html','r') as f:
+    with open ('templates\\roomBase.html','r') as f:
         tempCont = f.read()
 
-    with open ('text-messaging-app-master\\templates\\roomFinal.html','w') as f:
+    with open ('templates\\roomFinal.html','w') as f:
         f.write(tempCont)
 
 reset()
@@ -172,7 +172,7 @@ def chatroomIndex():
 
 
 def dispMsg(text):
-    with open('text-messaging-app-master\\templates\\roomFinal.html', "r") as f:
+    with open('templates\\roomFinal.html', "r") as f:
         soup = Soup(f, 'lxml') 
         #already set a hidden p tag in roomfinal, to use it to add other p tags
         p_last = soup.find_all("p")[-1]
@@ -181,7 +181,7 @@ def dispMsg(text):
         p_last.insert_after(p)
         
 
-    with open('text-messaging-app-master\\templates\\roomFinal.html', "w") as f:
+    with open('templates\\roomFinal.html', "w") as f:
         f.write(str(soup))
 
 #dont modify this, working on the end button for the chatroom.      
