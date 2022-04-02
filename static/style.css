@@ -110,7 +110,7 @@ hr{
     text-align: left;
     position: relative;
     top:-300px;
-    /* overflow: scroll; */
+    
     border:1px solid cadetblue;
 }
 
@@ -118,9 +118,12 @@ hr{
 #box {
     justify-content: left;
     color: white;
-    /* height: 500px; */
+    height: 400px;
     font-family: 'Raleway';
+    overflow: scroll;
     font-size: 25px;
+    
+    
     
   }
   .gradient-border {
