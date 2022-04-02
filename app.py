@@ -1,11 +1,8 @@
 from flask import Flask, redirect, render_template, request, url_for, session, flash
 from bs4 import BeautifulSoup as Soup
-import socket
 import users_db as userdb
 import time, random
 import chat_db as roomdb
-import numpy as np
-import cv2
 import subprocess, sys
 
 
@@ -36,35 +33,8 @@ def reset():
 
 reset()
 
-class Video():
-    count = 0
-    users = set()
-    def __init__(self, username):
-        self.username = username
-        Video.users.add(self.username)
-        Video.count = len(Video.users)
-        
-    def showVideo(self):
-        self.cap = cv2.VideoCapture(0)
 
-        while True:
-            ret, frame = self.cap.read() 
-            #cv2.line(image,inital_coord,final_coord,color,thickness)
-            img = cv2.line(frame,(0,0),(0,0),(255,0,0),10)
         
-            font = cv2.FONT_HERSHEY_SIMPLEX
-        
-            #cv2.putText(image,text,bottom_left_coord,fontstyle,fontscale,color,thickness,lineType)
-            img = cv2.putText(img, 'Press Q to exit', (200,100), font, 1 ,(0,0,0), 4, cv2.LINE_AA)
-            img = cv2.putText(img, 'Number of Users: {no}'.format(no = Video.count), (200,50), font, 1 ,(0,0,0), 4, cv2.LINE_AA)
-            cv2.imshow('frame', img)
-        
-            if cv2.waitKey(1) == ord('q'):
-                break
-            
-            
-        self.cap.release()
-        cv2.destroyAllWindows()
 
 
 @app.route('/', methods = ['GET','POST'])
@@ -241,8 +211,7 @@ def roomFinal(id):
 
         if request.form.get('video'):
             curUser = session['username']
-            curUser = Video(session['username'])
-            curUser.showVideo()
+
         
         #if enter button pressed (check id of button)
         if request.form.get('enter'):
@@ -277,11 +246,9 @@ def roomFinal(id):
         return render_template('home.html', info = "Log in first to join a chatroom.")
 
 #get local ip address of the server-host device.
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
 
 if __name__ == '__main__':
-    app.run(debug = True, host = ip_address)
+    app.run(debug = True)
 
 
 
